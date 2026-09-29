@@ -33,36 +33,55 @@ while (running)
         Console.WriteLine("2. Medium");
         Console.WriteLine("3. High");
 
-        string priority = Console.ReadLine();
 
-        Ticket newTicket = new Ticket();
-        newTicket.TicketId = nextTicketId;
-        newTicket.Name = name;
-        newTicket.Issue = issue;
-        newTicket.Priority = priority;
-        newTicket.Status = "Open";
+        string priorityChoice = Console.ReadLine();
 
-        tickets.Add(newTicket);
-        nextTicketId++;
-
-        Console.WriteLine("\nTicket created!");
-        Console.WriteLine("Name: " + newTicket.Name);
-        Console.WriteLine("Issue: " + newTicket.Issue);
-        Console.WriteLine("Ticket ID: " + newTicket.TicketId);
-
-        if (priority == "3")
-        {
-            Console.WriteLine("Status: Open - Your matter will be handled urgently!");
-        }
-        else if (priority == "1" || priority == "2")
-        {
-            Console.WriteLine("Status: Open");
-        }
-        else
+        if (priorityChoice != "1" && priorityChoice != "2" && priorityChoice != "3")
         {
             Console.WriteLine("Invalid priority selected.");
         }
+        else
+        {
+            string priorityLevel = "";
 
+            if (priorityChoice == "1")
+            {
+                priorityLevel = "Low";
+            }
+            else if (priorityChoice == "2")
+            {
+                priorityLevel = "Medium";
+            }
+            else if (priorityChoice == "3")
+            {
+                priorityLevel = "High";
+            }
+
+            Ticket newTicket = new Ticket();
+            newTicket.TicketId = nextTicketId;
+            newTicket.Name = name;
+            newTicket.Issue = issue;
+            newTicket.Priority = priorityLevel;
+            newTicket.Status = "Open";
+
+            tickets.Add(newTicket);
+            nextTicketId++;
+
+            Console.WriteLine("\nTicket created!");
+            Console.WriteLine("Name: " + newTicket.Name);
+            Console.WriteLine("Issue: " + newTicket.Issue);
+            Console.WriteLine("Priority: " + newTicket.Priority);
+            Console.WriteLine("Ticket ID: " + newTicket.TicketId);
+
+            if (priorityChoice == "3")
+            {
+                Console.WriteLine("Status: Open - Your matter will be handled urgently!");
+            }
+            else
+            {
+                Console.WriteLine("Status: Open");
+            }
+        }
     }
 
     else if (choice == "2")
@@ -77,6 +96,7 @@ while (running)
         else
         {
 
+
             foreach (Ticket ticket in tickets)
             {
                 Console.WriteLine("Name: " + ticket.Name);
@@ -86,6 +106,8 @@ while (running)
                 Console.WriteLine("Ticket ID: " + ticket.TicketId);
                 Console.WriteLine("-----------------------");
             }
+
+
         }
     }
 
@@ -94,43 +116,63 @@ while (running)
         Console.WriteLine("\n===== UPDATE TICKET STATUS =====");
 
         Console.Write("Enter Ticket ID: ");
-        int ticketId = Convert.ToInt32(Console.ReadLine());
+        string ticketInput = Console.ReadLine();
 
-        foreach (Ticket ticket in tickets)
+        int ticketId;
+
+        bool isValid = int.TryParse(ticketInput, out ticketId);
+
+        if (isValid == false)
         {
-            if (ticket.TicketId == ticketId)
+            Console.WriteLine("Invalid Ticket ID.");
+        }
+        else
+        {
+            bool ticketFound = false;
+            foreach (Ticket ticket in tickets)
             {
+                if (ticket.TicketId == ticketId)
+
+                {
+                ticketFound = true;
+
                 Console.WriteLine("Ticket found!");
-                Console.WriteLine("Issue: " + ticket.Issue);
-                Console.WriteLine("Current status: " + ticket.Status);
+                    Console.WriteLine("Issue: " + ticket.Issue);
+                    Console.WriteLine("Current status: " + ticket.Status);
 
-                Console.WriteLine("\nSelect new status:");
-                Console.WriteLine("1. Open");
-                Console.WriteLine("2. In Progress");
-                Console.WriteLine("3. Resolved");
+                    Console.WriteLine("\nSelect new status:");
+                    Console.WriteLine("1. Open");
+                    Console.WriteLine("2. In Progress");
+                    Console.WriteLine("3. Resolved");
 
-                Console.Write("Choose an option: ");
-                string statusChoice = Console.ReadLine();
+                    Console.Write("Choose an option: ");
+                    string statusChoice = Console.ReadLine();
 
-                if (statusChoice == "1")
-                {
-                    ticket.Status = "Open";
-                    Console.WriteLine("Status updated to Open.");
+                    if (statusChoice == "1")
+                    {
+                        ticket.Status = "Open";
+                        Console.WriteLine("Status updated to Open.");
+                    }
+                    else if (statusChoice == "2")
+                    {
+                        ticket.Status = "In Progress";
+                        Console.WriteLine("Status updated to In Progress.");
+                    }
+                    else if (statusChoice == "3")
+                    {
+                        ticket.Status = "Resolved";
+                        Console.WriteLine("Status updated to Resolved.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid status option.");
+                    }
+                    
                 }
-                else if (statusChoice == "2")
-                {
-                    ticket.Status = "In Progress";
-                    Console.WriteLine("Status updated to In Progress.");
-                }
-                else if (statusChoice == "3")
-                {
-                    ticket.Status = "Resolved";
-                    Console.WriteLine("Status updated to Resolved.");
-                }
-                else
-                {
-                    Console.WriteLine("Invalid status option.");
-                }
+            }
+            if (ticketFound == false)
+            {
+                Console.WriteLine("Ticket not found.");
             }
         }
     }
