@@ -94,7 +94,45 @@ while (running)
         Console.WriteLine("\n===== UPDATE TICKET STATUS =====");
 
         Console.Write("Enter Ticket ID: ");
-        string ticketId = Console.ReadLine();
+        int ticketId = Convert.ToInt32(Console.ReadLine());
+
+        foreach (Ticket ticket in tickets)
+        {
+            if (ticket.TicketId == ticketId)
+            {
+                Console.WriteLine("Ticket found!");
+                Console.WriteLine("Issue: " + ticket.Issue);
+                Console.WriteLine("Current status: " + ticket.Status);
+
+                Console.WriteLine("\nSelect new status:");
+                Console.WriteLine("1. Open");
+                Console.WriteLine("2. In Progress");
+                Console.WriteLine("3. Resolved");
+
+                Console.Write("Choose an option: ");
+                string statusChoice = Console.ReadLine();
+
+                if (statusChoice == "1")
+                {
+                    ticket.Status = "Open";
+                    Console.WriteLine("Status updated to Open.");
+                }
+                else if (statusChoice == "2")
+                {
+                    ticket.Status = "In Progress";
+                    Console.WriteLine("Status updated to In Progress.");
+                }
+                else if (statusChoice == "3")
+                {
+                    ticket.Status = "Resolved";
+                    Console.WriteLine("Status updated to Resolved.");
+                }
+                else
+                {
+                    Console.WriteLine("Invalid status option.");
+                }
+            }
+        }
     }
 
     else if (choice == "4")
