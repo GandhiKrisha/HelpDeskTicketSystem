@@ -13,7 +13,8 @@ namespace HelpDeskTicketSystem
         public string Issue { get; set; }
         public string Priority { get; set; }
         public string Status { get; set; }
-
+        public string Category { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 
 
